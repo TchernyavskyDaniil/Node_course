@@ -1,6 +1,7 @@
 {
-  "name": "ex1",
+  "name": "ex2",
   "version": "1.0.0",
+  "description": "",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -8,10 +9,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "rimraf": "^2.6.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "eslint-config-standard": "^11.0.0-beta.0",
     "eslint-plugin-import": "^2.8.0",
