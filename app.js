@@ -12,7 +12,7 @@ const contact = require('./routes/contactMe');
 const work = require('./routes/myWork');
 // var users = require('./routes/users');
 
-var app = express();
+const app = express();
 
 app.use(session({
     secret: 'loftschool',

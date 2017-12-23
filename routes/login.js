@@ -26,7 +26,7 @@ router.get('/', auth, function(req, res) {
     res.render('pages/login', { registration : req.session.auth});
 });
 
-
+// Наше ТЗ
 router.post('/', function(req, res) {
     if (!req.session.auth) {
 
@@ -34,6 +34,7 @@ router.post('/', function(req, res) {
             name: req.body.name,
             pass: req.body.password
         };
+
         res.json(jsonOk);
     } else {
         res.json(jsonBad);
@@ -41,4 +42,3 @@ router.post('/', function(req, res) {
 });
 
 module.exports = router;
-

@@ -22,7 +22,6 @@ router.get('/', function(req, res) {
 
 router.post('/', function (req, res) {
     if (!req.body.name || !req.body.email || !req.body.text) {
-
         //если что-либо не указано - сообщаем об этом
         return res.json(jsonBad);
     }
