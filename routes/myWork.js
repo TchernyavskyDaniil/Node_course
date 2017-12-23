@@ -59,7 +59,7 @@ router.post('/', (req, res, next) => {
             }
 
             let dir = fileName.substr(fileName.indexOf('upload'));
-            db.set(fields.name, {
+            db.set(fields.projectName, {
                 'file' : dir,
                 'projectName':fields.projectName,
                 'projectUrl':fields.projectUrl,
