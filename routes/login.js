@@ -23,7 +23,7 @@ const auth = (req, res, next) => {
 
 // Рендерим
 router.get('/', auth, function(req, res) {
-    res.render('pages/login', { registration : req.session.auth});
+    res.render('pages/login');
 });
 
 // Наше ТЗ
