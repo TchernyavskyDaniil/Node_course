@@ -31,7 +31,7 @@ router.post('/', function(req, res) {
     if (!req.session.auth) {
 
         req.session.auth = {
-            name: req.body.name,
+            name: req.body.login,
             pass: req.body.password
         };
 
