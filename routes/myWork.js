@@ -1,5 +1,4 @@
-const express = require('express');
-const router = express.Router();
+const router = require('koa-router')();
 const formidable = require('formidable');
 const fs = require('fs');
 const path = require('path');
@@ -18,8 +17,8 @@ let jsonOk = {
 };
 
 /* GET home page. */
-router.get('/', function(req, res) {
-    res.render('pages/my-work', {pic: db.stores.file.store});
+router.get('/my-work', async (ctx, next) => {
+    await ctx.render('pages/my-work');
 });
 
 router.post('/', (req, res, next) => {

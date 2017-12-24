@@ -1,5 +1,4 @@
-const express = require('express');
-const router = express.Router();
+const router = require('koa-router')();
 
 // При ошибке
 let jsonBad = {
@@ -22,11 +21,11 @@ const auth = (req, res, next) => {
 };
 
 // Рендерим
-router.get('/', auth, function(req, res) {
-    res.render('pages/login');
+router.get('/login', async (ctx, next) => {
+    await ctx.render('pages/login');
 });
 
-// Наше ТЗ
+// // Наше ТЗ
 router.post('/', function(req, res) {
     if (!req.session.auth) {
 

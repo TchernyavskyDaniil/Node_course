@@ -1,5 +1,4 @@
-var express = require('express');
-var router = express.Router();
+const router = require('koa-router')();
 const nodemailer = require('nodemailer');
 const config = require('../config.json');
 
@@ -16,8 +15,8 @@ let jsonOk = {
 };
 
 /* GET home page. */
-router.get('/', function(req, res) {
-    res.render('pages/contact-me');
+router.get('/contact-me', async (ctx, next) => {
+    await ctx.render('pages/contact-me');
 });
 
 router.post('/', function (req, res) {

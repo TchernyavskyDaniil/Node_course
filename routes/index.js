@@ -1,9 +1,7 @@
-var express = require('express');
-var router = express.Router();
+const router = require('koa-router')();
 
-/* GET home page. */
-router.get('/', function(req, res) {
-    res.render('pages/index', { auth : req.session.auth});
+router.get('/', async (ctx, next) => {
+    await ctx.render('pages/index');
 });
 
 module.exports = router;
