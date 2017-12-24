@@ -8,3 +8,4 @@ server
 .idea/modules.xml
 .idea/workspace.xml
 .idea
+.DS_Store
