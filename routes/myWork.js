@@ -18,10 +18,10 @@ let jsonOk = {
 
 /* GET home page. */
 router.get('/my-work', async (ctx, next) => {
-    await ctx.render('pages/my-work');
+    await ctx.render('pages/my-work', {auth : ctx.cookies.get('auth'), pic: db.stores.file.store});
 });
 
-router.post('/', (req, res, next) => {
+router.post('/my-work', (ctx) => {
     let form = new formidable.IncomingForm();
     let upload = 'public/upload';
     let fileName;
@@ -30,44 +30,38 @@ router.post('/', (req, res, next) => {
         fs.mkdirSync(upload);
     }
 
-    form.uploadDir = path.join(process.cwd(), upload);
+    let file = ctx.request.body.files.file;
+    let fileFields = ctx.request.body.fields;
 
-    form.parse(req, function (err, fields, files) {
-        if (err) {
-            return res.json(jsonBad);
-        }
 
-        if (files.file.name === '' || files.file.size === 0) {
-            jsonBad.mes = 'Не загружена картинка!';
-            return res.json(jsonBad);
-        }
+    if (file.name === '' || file.size === 0) {
+        jsonBad.mes = 'Не загружена картинка!';
+        ctx.body = jsonBad;
+    }
+    if (!fileFields.text) {
+        fs.unlink(ctx.request.body.files.file.path);
+        jsonBad.mes = 'Не указано описание картинки!';
+        ctx.body = jsonBad;
+    }
 
-        if (!fields.text) {
-            fs.unlink(files.file.path);
-            jsonBad.mes = 'Не указано описание картинки!';
-            return res.json(jsonBad);
-        }
-
-        fileName = path.join(upload, files.file.name);
-
-        fs.rename(files.file.path, fileName, function (err) {
-            if (err) {
-                console.error(err);
-                fs.unlink(fileName);
-                fs.rename(files.file.path, fileName);
-            }
-
-            let dir = fileName.substr(fileName.indexOf('upload'));
-            db.set(fields.projectName, {
-                'file' : dir,
-                'projectName':fields.projectName,
-                'projectUrl':fields.projectUrl,
-                'text' : fields.text,
-            });
-            db.save();
-            res.json(jsonOk);
-        });
-    })
+    fileName = path.join(upload, file.name);
+    fs.rename(file.path, fileName, function (err) {
+        // if (err) {
+        //     console.error(err);
+        //     fs.unlink(fileName);
+        //     fs.rename(files.file.path, fileName);
+        // }
+        //
+        // let dir = fileName.substr(fileName.indexOf('upload'));
+        // db.set(fields.projectName, {
+        //     'file' : dir,
+        //     'projectName':fields.projectName,
+        //     'projectUrl':fields.projectUrl,
+        //     'text' : fields.text,
+        // });
+        // db.save();
+        ctx.body = jsonOk;
+    });
 });
 
 module.exports = router;

@@ -37,14 +37,13 @@ router.post('/contact-me', function (ctx) {
     };
 
     //отправляем почту
-    transporter.sendMail(mailOptions, function(error, info) {
-        //если есть ошибки при отправке - сообщаем об этом
-        if (error) {
-            jsonBad.mes = 'Письмо не отправляется';
-            return ctx.body = jsonBad;
-        }
+    try {
+        transporter.sendMail(mailOptions);
         ctx.body = jsonOk;
-    });
+    } catch (err) {
+        jsonBad.mes = 'Письмо не отправляется';
+        return ctx.body = jsonBad;
+    }
 });
 
 module.exports = router;
