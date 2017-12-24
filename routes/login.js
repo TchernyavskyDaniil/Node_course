@@ -1,5 +1,4 @@
 const router = require('koa-router')();
-const session = require('koa-session');
 
 // При ошибке
 let jsonBad = {
@@ -14,31 +13,31 @@ let jsonOk = {
 };
 
 // Если авторизован, то при рефреше попадает на главную
-const auth = (req, res, next) => {
-    if (req.session.auth) {
-        res.redirect('/');
+const auth = (ctx, next) => {
+    if (ctx.cookies.get('auth')) {
+        ctx.response.redirect('/');
     }
     return next();
 };
 
 // Рендерим
-router.get('/login', async (ctx, next) => {
-    await ctx.render('pages/login');
+router.get('/login', auth, async (ctx, next) => {
+    await ctx.render('pages/login', {auth : auth});
 });
 
 // // Наше ТЗ
-router.post('/', function(req, res) {
-    if (!req.session.auth) {
-
-        req.session.auth = {
-            name: req.body.login,
-            pass: req.body.password
-        };
-
-        res.json(jsonOk);
+router.post('/login', (ctx, next) => {
+    if (!ctx.cookies.get('auth')) {
+        ctx.cookies.set('auth', JSON.stringify(`{ name : ${ctx.request.body.login}, pass : ${ctx.request.body.password} }`), { maxAge: 860000 });
+        ctx.body = jsonOk;
     } else {
-        res.json(jsonBad);
+        ctx.body = jsonBad;
     }
 });
 
+// Реализовать
+// router.post('/', (ctx, next) => {
+//     ctx.cookies.set('auth', null, {maxAge: 0});
+//     ctx.redirect('/')
+// });
 module.exports = router;

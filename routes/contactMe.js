@@ -16,24 +16,24 @@ let jsonOk = {
 
 /* GET home page. */
 router.get('/contact-me', async (ctx, next) => {
-    await ctx.render('pages/contact-me');
+    await ctx.render('pages/contact-me', {auth:ctx.cookies.get('auth')});
 });
 
-router.post('/', function (req, res) {
-    if (!req.body.name || !req.body.email || !req.body.text) {
+router.post('/contact-me', function (ctx) {
+    if (!ctx.request.body.name || !ctx.request.body.email || !ctx.request.body.text) {
         //если что-либо не указано - сообщаем об этом
-        return res.json(jsonBad);
+        ctx.body = jsonBad;
     }
 
     //инициализируем модуль для отправки писем и указываем данные из конфига
     const transporter = nodemailer.createTransport(config.mail.smtp);
     const mailOptions = {
-        from: `"${req.body.name}" <${req.body.email}>`,
+        from: `"${ctx.request.body.name}" <${ctx.request.body.email}>`,
         to: config.mail.smtp.auth.user,
         subject: config.mail.subject,
         text:
-        req.body.text.trim().slice(0, 500) +
-        `\n Отправлено с: <${req.body.email}>`
+        ctx.request.body.message.trim().slice(0, 500) +
+        `\n Отправлено с: <${ctx.request.body.email}>`
     };
 
     //отправляем почту
@@ -41,9 +41,9 @@ router.post('/', function (req, res) {
         //если есть ошибки при отправке - сообщаем об этом
         if (error) {
             jsonBad.mes = 'Письмо не отправляется';
-            return res.json(jsonBad);
+            return ctx.body = jsonBad;
         }
-        res.json(jsonOk);
+        ctx.body = jsonOk;
     });
 });
 
