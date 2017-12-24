@@ -1,4 +1,5 @@
 const router = require('koa-router')();
+const session = require('koa-session');
 
 // При ошибке
 let jsonBad = {
