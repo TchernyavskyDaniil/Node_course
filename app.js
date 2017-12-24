@@ -1,18 +1,22 @@
-const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const session = require('express-session');
+
+const Koa = require('koa');
+const Pug = require('koa-pug');
+const koaBody = require('koa-body');
+const koaRouter = require('koa-router');
+
+const app = new Koa();
+const router = new koaRouter();
 
 const index = require('./routes/index');
 const login = require('./routes/login');
 const contact = require('./routes/contactMe');
 const work = require('./routes/myWork');
-// var users = require('./routes/users');
 
-const app = express();
 
 app.use(session({
     secret: 'loftschool',
