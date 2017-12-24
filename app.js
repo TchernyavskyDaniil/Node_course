@@ -14,12 +14,14 @@ const work = require('./routes/myWork');
 // error handler
 onerror(app);
 
-
-
 // middlewares
 app.use(bodyparser({
-    enableTypes:['json', 'form', 'text']
-}))
+    multipart: true,
+    formidable: {
+        uploadDir: __dirname + '/public/upload'
+    }
+}));
+
 app.use(json());
 app.use(logger());
 app.use(require('koa-static')(__dirname + '/public'));

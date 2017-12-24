@@ -30,6 +30,8 @@ router.post('/my-work', (ctx) => {
         fs.mkdirSync(upload);
     }
 
+    console.log(ctx.request.body);
+
     let file = ctx.request.body.files.file;
     let fileFields = ctx.request.body.fields;
 
@@ -45,23 +47,23 @@ router.post('/my-work', (ctx) => {
     }
 
     fileName = path.join(upload, file.name);
-    fs.rename(file.path, fileName, function (err) {
-        // if (err) {
-        //     console.error(err);
-        //     fs.unlink(fileName);
-        //     fs.rename(files.file.path, fileName);
-        // }
-        //
-        // let dir = fileName.substr(fileName.indexOf('upload'));
-        // db.set(fields.projectName, {
-        //     'file' : dir,
-        //     'projectName':fields.projectName,
-        //     'projectUrl':fields.projectUrl,
-        //     'text' : fields.text,
-        // });
-        // db.save();
-        ctx.body = jsonOk;
-    });
+    let dir = fileName.substr(fileName.indexOf('upload'));
+
+    try {
+        fs.rename(file.path, dir);
+    } catch (err) {
+            console.error(err);
+            fs.unlink(fileName);
+            fs.rename(file.path, fileName);
+    }
+     db.set(fileFields.projectName, {
+         'file' : dir,
+         'projectName':fileFields.projectName,
+         'projectUrl':fileFields.projectUrl,
+         'text' : fileFields.text,
+     });
+    db.save();
+    ctx.body = jsonOk;
 });
 
 module.exports = router;
