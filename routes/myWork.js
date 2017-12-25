@@ -29,7 +29,7 @@ router.get('/my-work', async (ctx, next) => {
     await ctx.render('pages/my-work', {auth : ctx.cookies.get('auth'), pic: db.stores.file.store});
 });
 
-router.post('/my-work', (ctx) => {
+router.post('/my-work', async (ctx) => {
     let form = new formidable.IncomingForm();
     let fileName;
 
@@ -54,10 +54,10 @@ router.post('/my-work', (ctx) => {
     let dir = fileName.substr(fileName.indexOf('upload'));
 
     try {
-        fs.renameSync(file.path, dir);
+        await rename(file.path, dir);
     } catch (err) {
             console.error(err);
-            fs.renameSync(file.path, fileName);
+            await rename(file.path, fileName);
     }
      db.set(fileFields.projectName, {
          'file' : dir,
