@@ -9,6 +9,7 @@ const index = require('./routes/index');
 const login = require('./routes/login');
 const contact = require('./routes/contactMe');
 const work = require('./routes/myWork');
+const fs = require('fs');
 // const users = require('./routes/users')
 
 // error handler
@@ -21,6 +22,12 @@ app.use(bodyparser({
         uploadDir: __dirname + '/public/upload'
     }
 }));
+
+let upload = 'public/upload';
+
+if (!fs.existsSync(upload)) {
+    fs.mkdirSync(upload);
+}
 
 app.use(json());
 app.use(logger());

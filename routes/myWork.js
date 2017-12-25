@@ -3,6 +3,14 @@ const formidable = require('formidable');
 const fs = require('fs');
 const path = require('path');
 const db = require('../models/db')();
+const util = require('util');
+const rename = util.promisify(fs.rename);
+
+let upload = 'public/upload';
+
+if (!fs.existsSync(upload)) {
+    fs.mkdirSync(upload);
+}
 
 // При ошибке
 let jsonBad = {
@@ -23,12 +31,8 @@ router.get('/my-work', async (ctx, next) => {
 
 router.post('/my-work', (ctx) => {
     let form = new formidable.IncomingForm();
-    let upload = 'public/upload';
     let fileName;
 
-    if (!fs.existsSync(upload)) {
-        fs.mkdirSync(upload);
-    }
 
     console.log(ctx.request.body);
 
@@ -50,11 +54,10 @@ router.post('/my-work', (ctx) => {
     let dir = fileName.substr(fileName.indexOf('upload'));
 
     try {
-        fs.rename(file.path, dir);
+        fs.renameSync(file.path, dir);
     } catch (err) {
             console.error(err);
-            fs.unlink(fileName);
-            fs.rename(file.path, fileName);
+            fs.renameSync(file.path, fileName);
     }
      db.set(fileFields.projectName, {
          'file' : dir,
