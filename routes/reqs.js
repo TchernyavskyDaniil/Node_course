@@ -1,5 +1,15 @@
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const router = express.Router();
+const uuid = require('uuid/v4');
+const crypto = require('crypto');
+
+const Permission = require('../users/permissionUser');
+const User = require('../users/user');
+
+// v4 - random
+let token = uuid();
 
 // POST-запрос на /api/saveNewUser - создание нового пользователя (регистрация).
 // Необходимо вернуть объект созданного пользователя.
