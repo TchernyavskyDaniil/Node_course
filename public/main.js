@@ -29686,7 +29686,7 @@ function addRouteRecord (
 
   if (route.children) {
     // Warn if route is named and has a default child route.
-    // If users navigate to this route by name, the default child will
+    // If models navigate to this route by name, the default child will
     // not be rendered (GH Issue #629)
     if (false) {
       if (route.name && route.children.some(function (child) { return /^\/?$/.test(child.path); })) {
@@ -31714,7 +31714,7 @@ var ChatComponent = (function (_super) {
         this.socket.on('history', function (id, data) {
             self.history[id] = data;
         });
-        this.socket.on('all users', function (data) {
+        this.socket.on('all models', function (data) {
             self.users = data;
         });
         this.socket.on('new user', function (data) {
@@ -34102,7 +34102,7 @@ Socket.prototype.onClose = function (reason, desc) {
     // emit close event
     this.emit('close', reason, desc);
 
-    // clean buffers after, so users can still
+    // clean buffers after, so models can still
     // grab the buffers on `close` event
     self.writeBuffer = [];
     self.prevBufferLen = 0;
@@ -35825,7 +35825,7 @@ module.exports = "<div class=\"adminPanel__wrapper\">\r\n    <div class=\"adminP
 /* 190 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"chat__wrapper\">\r\n    <div class=\"chat__content\">\r\n        <div class=\"chat__left-wrapper\">\r\n            <!--<div class=\"chat__groupRooms-wrapper\">\r\n\t\t\t\t<p>Групповые чаты</p>\r\n\t\t\t\t<div class=\"chat__rooms-wrapper\">\r\n\t\t\t\t\t<ul>\r\n\t\t\t\t\t\t<li><md-icon class=\"md-primary\">group</md-icon>Фронтэнд</li>\r\n\t\t\t\t\t\t<li><md-icon class=\"md-primary\">group</md-icon>Бэкэнд</li>\r\n\t\t\t\t\t</ul>\r\n\t\t\t\t</div>\r\n\t\t\t</div>-->\r\n            <div class=\"chat__personRooms-wrapper\">\r\n                <p>Личные чаты</p>\r\n                <div class=\"chat__rooms-wrapper\">\r\n                    <ul>\r\n                        <li v-for=\"user in users\" @click=\"changeActiveRoom(user.id)\" :class=\"(user.id === activeRoom) ? 'active_chat' : ''\">\r\n                            <md-icon class=\"md-primary\">message</md-icon>{{ user.username }}</li>\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <div v-if=\"activeRoom\" class=\"chat__right-wrapper\">\r\n            <div class=\"messages-wrapper\">\r\n                <div v-for=\"message in activeRoomMessages\" :class=\"(message.isMyMessage) ? 'my' : 'sender'\">\r\n                    <div class=\"message_text\">{{ message.text }}</div>\r\n                </div>\r\n            </div>\r\n            <div class=\"userMessage-wrapper\">\r\n                <md-input-container autocomplete=\"off\">\r\n                    <label>Введите ваше сообщение</label>\r\n                    <md-input v-on:keyup.enter=\"sendMessage\" v-model=\"userInput\" type=\"text\"></md-input>\r\n                </md-input-container>\r\n                <md-button class=\"md-icon-button md-raised md-primary\" @click=\"sendMessage\">\r\n                    <md-icon>message</md-icon>\r\n                </md-button>\r\n            </div>\r\n        </div>\r\n        <div v-else class=\"chat__right-wrapper\">\r\n            Выберите пользователя, чтобы начать общение.\r\n        </div>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"chat__wrapper\">\r\n    <div class=\"chat__content\">\r\n        <div class=\"chat__left-wrapper\">\r\n            <!--<div class=\"chat__groupRooms-wrapper\">\r\n\t\t\t\t<p>Групповые чаты</p>\r\n\t\t\t\t<div class=\"chat__rooms-wrapper\">\r\n\t\t\t\t\t<ul>\r\n\t\t\t\t\t\t<li><md-icon class=\"md-primary\">group</md-icon>Фронтэнд</li>\r\n\t\t\t\t\t\t<li><md-icon class=\"md-primary\">group</md-icon>Бэкэнд</li>\r\n\t\t\t\t\t</ul>\r\n\t\t\t\t</div>\r\n\t\t\t</div>-->\r\n            <div class=\"chat__personRooms-wrapper\">\r\n                <p>Личные чаты</p>\r\n                <div class=\"chat__rooms-wrapper\">\r\n                    <ul>\r\n                        <li v-for=\"user in models\" @click=\"changeActiveRoom(user.id)\" :class=\"(user.id === activeRoom) ? 'active_chat' : ''\">\r\n                            <md-icon class=\"md-primary\">message</md-icon>{{ user.username }}</li>\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <div v-if=\"activeRoom\" class=\"chat__right-wrapper\">\r\n            <div class=\"messages-wrapper\">\r\n                <div v-for=\"message in activeRoomMessages\" :class=\"(message.isMyMessage) ? 'my' : 'sender'\">\r\n                    <div class=\"message_text\">{{ message.text }}</div>\r\n                </div>\r\n            </div>\r\n            <div class=\"userMessage-wrapper\">\r\n                <md-input-container autocomplete=\"off\">\r\n                    <label>Введите ваше сообщение</label>\r\n                    <md-input v-on:keyup.enter=\"sendMessage\" v-model=\"userInput\" type=\"text\"></md-input>\r\n                </md-input-container>\r\n                <md-button class=\"md-icon-button md-raised md-primary\" @click=\"sendMessage\">\r\n                    <md-icon>message</md-icon>\r\n                </md-button>\r\n            </div>\r\n        </div>\r\n        <div v-else class=\"chat__right-wrapper\">\r\n            Выберите пользователя, чтобы начать общение.\r\n        </div>\r\n    </div>\r\n</div>"
 
 /***/ }),
 /* 191 */
@@ -37793,7 +37793,7 @@ var Store = function Store (options) {
   if ( options === void 0 ) options = {};
 
   // Auto install if it is not done yet and `window` has `Vue`.
-  // To allow users to avoid auto-installation in some cases,
+  // To allow models to avoid auto-installation in some cases,
   // this code should be placed here. See #731
   if (!Vue && typeof window !== 'undefined' && window.Vue) {
     install(window.Vue);

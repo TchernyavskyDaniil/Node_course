@@ -3,10 +3,10 @@ const fs = require('fs');
 const path = require('path');
 const router = express.Router();
 const uuid = require('uuid/v4');
-const crypto = require('crypto');
+const bCrypt = require('bcrypt-nodejs');
 
-const Permission = require('../users/permissionUser');
-const User = require('../users/user');
+const Permission = require('../models/permissionUser');
+const User = require('../models/user');
 
 // v4 - random
 let token = uuid();
